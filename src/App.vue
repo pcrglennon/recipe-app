@@ -1,17 +1,44 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h2 v-if="isLoading">Loading</h2>
+    <h2 v-else>Recipes count: {{ recipes.length }}</h2>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import {
+  Stitch,
+  RemoteMongoClient,
+  AnonymousCredential,
+} from 'mongodb-stitch-browser-sdk';
 
 export default {
   name: 'app',
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      isLoading: false,
+      recipes: [],
+    };
+  },
+  created() {
+    const client = Stitch.initializeDefaultAppClient('recipe-app-pekwx');
+
+    const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('recipes-app');
+
+    this.isLoading = true;
+
+    client.auth.loginWithCredential(new AnonymousCredential()).then((user) => {
+      return db.collection('recipes').find({}, { limit: 100 }).asArray();
+    }).then((docs) => {
+      console.log('Found docs', docs);
+      console.log(docs.length);
+      this.recipes = docs;
+      this.isLoading = false;
+    }).catch((err) => {
+      console.error('STITCH ERROR');
+      console.error(err);
+      this.isLoading = false;
+    });
   },
 };
 </script>
