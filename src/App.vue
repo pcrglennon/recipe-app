@@ -1,7 +1,22 @@
 <template>
   <div id="app">
-    <h2 v-if="isLoading">Loading</h2>
-    <h2 v-else>Recipes count: {{ recipes.length }}</h2>
+    <div v-if="isLoading">
+      <h2>Loading</h2>
+    </div>
+
+    <div v-else>
+      <h2>Recipes count: {{ recipes.length }}</h2>
+
+      <div
+        v-for="(recipe, index) in recipes"
+        :key="recipe._id.toString()"
+      >
+        <recipe
+          :recipe="recipe"
+          :index="index + 1"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,8 +27,13 @@ import {
   AnonymousCredential,
 } from 'mongodb-stitch-browser-sdk';
 
+import Recipe from './components/recipes/Recipe.vue';
+
 export default {
   name: 'app',
+  components: {
+    Recipe,
+  },
   data() {
     return {
       isLoading: false,
