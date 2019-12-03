@@ -1,13 +1,15 @@
 <template>
-  <div class="instruction-list">
-    <h4>Instructions</h4>
+  <div class="p-2">
+    <h4 class="mb-2">Instructions</h4>
 
-    <div
-      v-for="(instruction, index) in instructions"
-      :key="index"
-    >
-      {{formatInstruction(instruction)}}
-    </div>
+    <ol class="list-decimal list-inside">
+      <li
+        v-for="(instruction, index) in instructions"
+        :key="index"
+      >
+        {{formatInstruction(instruction)}}
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -29,11 +31,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-  .instruction-list {
-    margin-bottom: 25px;
-    padding: 10px 15px;
-    border: 1px dashed grey;
-  }
-</style>

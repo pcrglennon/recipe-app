@@ -1,13 +1,15 @@
 <template>
-  <div class="ingredient-list">
-    <h4>Ingredients</h4>
+  <div class="p-2">
+    <h4 class="mb-2">Ingredients</h4>
 
-    <div
-      v-for="(ingredient, index) in ingredients"
-      :key="index"
-    >
-      {{formatIngredient(ingredient)}}
-    </div>
+    <ul class="list-disc list-inside">
+      <li
+        v-for="(ingredient, index) in ingredients"
+        :key="index"
+      >
+        {{formatIngredient(ingredient)}}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -29,11 +31,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-  .ingredient-list {
-    margin-bottom: 25px;
-    padding: 10px 15px;
-    border: 1px dashed grey;
-  }
-</style>
