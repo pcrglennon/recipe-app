@@ -13,21 +13,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
 // Schema Assumption: ingredients is simple Array of Strings
 
-export default {
-  name: 'ingredient-list',
-  props: {
-    ingredients: {
-      type: Array,
-      required: true,
-    },
-  },
-  methods: {
-    formatIngredient(ingredient) {
-      return ingredient;
-    },
-  },
-};
+@Component
+export default class IngredientList extends Vue {
+  @Prop({ type: Array, required: true }) readonly ingredients!: string[];
+
+  formatIngredient(ingredient: string): string {
+    return ingredient;
+  }
+}
 </script>

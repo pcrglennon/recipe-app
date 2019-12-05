@@ -22,26 +22,26 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {
   Stitch,
   RemoteMongoClient,
   AnonymousCredential,
 } from 'mongodb-stitch-browser-sdk';
+import { Component, Vue } from 'vue-property-decorator';
 
 import Recipe from './components/recipes/Recipe.vue';
 
-export default {
-  name: 'app',
+@Component({
   components: {
     Recipe,
   },
-  data() {
-    return {
-      isLoading: false,
-      recipes: [],
-    };
-  },
+})
+export default class App extends Vue {
+  isLoading = false;
+  // TODO - create Recipe interface
+  recipes: Array<any> = [];
+
   created() {
     const client = Stitch.initializeDefaultAppClient('recipe-app-pekwx');
 
@@ -61,6 +61,6 @@ export default {
       console.error(err);
       this.isLoading = false;
     });
-  },
-};
+  }
+}
 </script>

@@ -13,21 +13,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
 // Schema Assumption: instructions is simple Array of Strings
 
-export default {
-  name: 'instruction-list',
-  props: {
-    instructions: {
-      type: Array,
-      required: true,
-    },
-  },
-  methods: {
-    formatInstruction(instruction) {
-      return instruction;
-    },
-  },
-};
+@Component
+export default class InstructionList extends Vue {
+  @Prop({ type: Array, required: true }) readonly instructions!: string[];
+
+  formatInstruction(instruction: string): string {
+    return instruction;
+  }
+}
 </script>

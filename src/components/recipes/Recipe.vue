@@ -24,29 +24,26 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import IngredientList from './IngredientList.vue';
 import InstructionList from './InstructionList.vue';
 
-export default {
-  name: 'recipe',
+@Component({
   components: {
     IngredientList,
     InstructionList,
   },
-  props: {
-    recipe: {
-      type: Object,
-      required: true,
-    },
-    index: Number,
-  },
-  computed: {
-    headerText() {
-      if (!this.index) return this.recipe.name;
+})
+export default class Recipe extends Vue {
+  @Prop({ required: true }) readonly recipe!: any;
+  @Prop(Number) readonly index: number | undefined;
 
-      return `${this.index}: ${this.recipe.name}`;
-    },
-  },
-};
+  get headerText() {
+    if (!this.index) return this.recipe.name;
+
+    return `${this.index}: ${this.recipe.name}`;
+  }
+}
 </script>
