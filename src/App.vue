@@ -23,11 +23,6 @@
 </template>
 
 <script lang="ts">
-import {
-  Stitch,
-  RemoteMongoClient,
-  AnonymousCredential,
-} from 'mongodb-stitch-browser-sdk';
 import axios from 'axios';
 import { Component, Vue } from 'vue-property-decorator';
 
@@ -44,34 +39,14 @@ export default class App extends Vue {
   recipes: Array<any> = [];
 
   created() {
-    // TODO - connect to own API once deployed
-    if (process.env.NODE_ENV === 'production') {
-      const client = Stitch.initializeDefaultAppClient('recipe-app-pekwx');
-
-      const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('recipes-app');
-
-      this.isLoading = true;
-
-      client.auth.loginWithCredential(new AnonymousCredential()).then((user) => {
-        return db.collection('recipes').find({}, { limit: 100 }).asArray();
-      }).then((docs) => {
-        this.recipes = docs;
-        this.isLoading = false;
+    axios.get(`${process.env.VUE_APP_API_URL_BASE}/recipes`)
+      .then((response) => {
+        this.recipes = response.data;
       }).catch((err) => {
-        console.error('STITCH ERROR');
+        console.error('API ERROR');
         console.error(err);
         this.isLoading = false;
       });
-    } else {
-      axios.get('http://localhost:3000/recipes')
-        .then((response) => {
-          this.recipes = response.data;
-        }).catch((err) => {
-          console.error('LOCAL API ERROR');
-          console.error(err);
-          this.isLoading = false;
-        });
-    }
   }
 }
 </script>
