@@ -32,8 +32,16 @@ const gqlRecipes: DocumentNode = gql`query {
   recipes {
     id
     name
-    ingredients
-    instructions
+    current {
+      ingredients
+      instructions
+      version
+    }
+    previous {
+      ingredients
+      instructions
+      version
+    }
   }
 }`;
 
